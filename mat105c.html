@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kirt Ruales | The Mathematics Behind Online Gaming</title>
+<style>
+:root{--bg:#0a1020;--panel:#111b31;--panel2:#172440;--text:#f4f7ff;--muted:#b7c3dc;--cyan:#65e5ff;--purple:#a78bfa;--green:#8af0b5;--line:#2b3b5c}
+*{box-sizing:border-box;scroll-behavior:smooth}
+
+body{margin:0;background:radial-gradient(circle at 80% 0%,#1c2450 0,transparent 35%),var(--bg);color:var(--text);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}
+
+header{position:sticky;top:0;z-index:10;background:#0a1020eF;border-bottom:1px solid var(--line);backdrop-filter:blur(12px)}
+.nav{max-width:1120px;margin:auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{font-weight:900;letter-spacing:1.5px}.brand span{color:var(--cyan)}
+nav{display:flex;gap:15px;flex-wrap:wrap;font-size:.88rem}
+nav a{color:var(--muted)}
+main{max-width:1120px;margin:auto;padding:28px 22px 70px}
+.hero{padding:65px 0 48px;display:grid;grid-template-columns:1.25fr .75fr;gap:32px;align-items:center}
+.eyebrow{color:var(--cyan);font-weight:800;letter-spacing:2px;text-transform:uppercase;font-size:.78rem}
+h1{font-size:clamp(2.25rem,5vw,4.3rem);line-height:1.05;letter-spacing:-1.5px;margin:14px 0}
+h1 span{color:var(--cyan)}h2{font-size:clamp(1.55rem,3vw,2.2rem);line-height:1.2;margin:0 0 14px}
+h3{margin:0 0 8px;font-size:1.15rem}
+p{color:var(--muted);margin:8px 0 14px}
+.hero-card,.card,.metric{background:linear-gradient(145deg,var(--panel),#0e172b);border:1px solid var(--line);border-radius:18px}
+.hero-card{padding:24px;box-shadow:0 20px 60px #0004}
+.hero-symbol{height:230px;border-radius:14px;overflow:hidden;background:linear-gradient(135deg,#182e50,#32265c);margin-bottom:18px;border:1px dashed var(--cyan)}.hero-symbol img{width:100%;height:100%;display:block;object-fit:cover}.photo-slot{border:1px dashed var(--cyan);background:#101a30;border-radius:14px;min-height:210px;display:grid;place-items:center;text-align:center;padding:18px;color:var(--muted)}.photo-slot strong{display:block;color:var(--cyan);font-size:1rem}.photo-slot code{display:block;color:#fff;margin-top:8px;overflow-wrap:anywhere}.photo-section{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;margin-top:18px}.photo-section img{display:block;width:100%;height:100%;min-height:230px;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--line)}.photo-caption{font-size:.82rem;color:var(--muted);margin-top:7px}.image-guide{font-size:.82rem;color:var(--green);margin-top:8px}@media(max-width:780px){.photo-section{grid-template-columns:1fr}.photo-section img{min-height:190px}}
+.button{display:inline-block;background:var(--cyan);color:#061321;font-weight:800;padding:11px 17px;border-radius:10px;margin:8px 8px 0 0}
+.button.secondary{background:transparent;border:1px solid var(--line);color:var(--text)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.metric{padding:15px}.metric strong{display:block;font-size:1.8rem;color:var(--cyan)}.metric small{color:var(--muted)}
+section{padding:40px 0;scroll-margin-top:75px}
+.section-intro{max-width:780px;margin-bottom:22px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.card{padding:21px}.tag{display:inline-block;font-size:.76rem;font-weight:800;color:var(--cyan);border:1px solid #31546a;border-radius:999px;padding:4px 9px;margin-bottom:10px}
+.formula{background:#080e1b;border:1px solid var(--line);border-radius:12px;padding:15px;margin:13px 0;color:#fff;overflow-wrap:anywhere}
+.formula .big{font-size:1.3rem;color:var(--green);font-weight:800}
+table{width:100%;border-collapse:collapse;margin:15px 0;border-radius:10px;overflow:hidden}
+th,td{text-align:left;padding:11px 13px;border-bottom:1px solid var(--line)}
+th{background:#1a2946;color:#fff}td{color:var(--muted)}tr:last-child td{border-bottom:0}
+.chart-wrap{background:#0a1223;border:1px solid var(--line);border-radius:14px;padding:18px}
+.bar-row{display:grid;grid-template-columns:90px 1fr 50px;gap:10px;align-items:center;margin:14px 0;color:var(--muted)}
+.bar{height:17px;background:#253653;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--purple))}
+.callout{border-left:4px solid var(--cyan);background:#101e35;padding:14px 17px;border-radius:0 10px 10px 0;margin:16px 0;color:var(--muted)}
+.calculator{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+label{display:block;color:var(--muted);font-size:.9rem;margin:9px 0 5px}
+input{width:100%;background:#080e1b;color:var(--text);border:1px solid var(--line);padding:11px;border-radius:9px;font:inherit}
+button{border:0;cursor:pointer;font:inherit}
+.result{background:#102d35;border:1px solid #23616a;border-radius:12px;padding:17px;margin-top:14px}
+.result strong{font-size:1.8rem;color:var(--green)}
+.steps li{margin:8px 0;color:var(--muted)}
+.reflection{font-size:1.06rem}
+footer{border-top:1px solid var(--line);padding:25px 22px;text-align:center;color:var(--muted)}
+.small{font-size:.86rem}.muted{color:var(--muted)}
+@media(max-width:780px){.hero{grid-template-columns:1fr;padding-top:40px}.grid{grid-template-columns:1fr}.calculator{grid-template-columns:1fr}.metrics{grid-template-columns:1fr}nav{gap:9px}.nav{align-items:flex-start;flex-direction:column}.bar-row{grid-template-columns:72px 1fr 40px}}
+@media print{header,.button,button{display:none!important}body{background:white;color:#111}.card,.hero-card,.metric,.chart-wrap{background:white;color:#111;border:1px solid #aaa;break-inside:avoid}p,td,.muted,.steps li{color:#333}section{padding:20px 0}main{max-width:100%}}
+</style>
+</head>
+<body>
+<header>
+  <div class="nav">
+    <div class="brand">MATH<span>GAMING</span></div>
+    <nav aria-label="Main navigation">
+      <a href="#intro">Introduction</a><a href="#concepts">Application of Concepts</a><a href="#analysis">Analysis</a><a href="#modern-issue">Modern Situation</a><a href="#reflection">Reflection</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero" id="top">
+    <div>
+      <div class="eyebrow">A real-life mathematics portfolio</div>
+      <h1>The Mathematics of <span>Online Gaming</span></h1>
+      <p>How can mathematics help players understand gaming performance, make informed decisions, and maintain responsible gaming habits? This portfolio uses a real Mobile Legends profile to explore statistics, mathematical language, and problem-solving while considering digital competition and responsible gaming.</p>
+      <a class="button" href="#concepts">Explore the mathematics ↓</a>
+      <a class="button secondary" href="#analysis">View the analysis</a>
+      <div class="metrics">
+        <div class="metric"><strong>3</strong><small>mathematical topics</small></div>
+        <div class="metric"><strong>8,553</strong><small>all-season matches</small></div>
+        <div class="metric"><strong>55.13%</strong><small>all-season win rate</small></div>
+      </div>
+      <p class="small">Profile figures come from student.</p>
+    </div>
+    <aside class="hero-card">
+      
+      <img src="mlbb-main.jpg" alt="Mobile Legends statistics screen showing 8,553 matches and a 55.13% all-season win rate" style="width:100%;height:100%;min-height:230px;object-fit:cover;display:block;border-radius:14px">
+      <div class="tag">PROJECT OVERVIEW</div>
+      <p class="small">The image used in this portfolio were provided by the student.</p>
+      <h3>Modern Situation. Three mathematical topics.</h3>
+      <p>Statistics measures performance, mathematical language communicates it, and problem-solving helps answer a goal-based question.</p>
+      <p class="small">Prepared by: <strong>Kirt M. Ruales</strong><br>Subject/Section: <strong>Mat105C</strong><br>Teacher: <strong>Jenilyn Entong</strong></p>
+    </aside>
+  </section>
+
+  <section id="intro">
+    <div class="section-intro">
+      <div class="eyebrow">A · Introduction</div>
+      <h2>Why is mathematics relevant to online gaming today?</h2>
+      <p>Online games turn player activity into data: match totals, win rates, MVP counts, and streaks. Learning to read these numbers is part of digital and statistical literacy. Players can use the information to reflect on performance, but a win rate alone cannot measure teamwork, communication, role difficulty, opponent strength, or enjoyment.</p>
+    </div>
+    <div class="card">
+      <h3>Guiding question</h3>
+      <p><strong>How can mathematics help a player understand match results and calculate how many additional wins are needed to reach a target win rate?</strong></p>
+      <div class="callout"><strong>Scope:</strong> The Image shows 8,553 matches, a 55.13% win rate, 1,141 MVPs, and a longest win streak of 28. The goal calculation is an estimate because the displayed win rate is rounded.</div>
+    </div>
+<div class="photo-section">
+      <div>
+        <div class="tag">REAL GAME IMAGE</div>
+        <h3>Inside the game a statistics about each hero.</h3>
+        </div>
+      <img src="mlbb-introduction.jpg" alt="Mobile Legends favorite heroes screen showing hero matches and win rates" style="width:100%;height:100%;min-height:230px;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--line)">
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h3>Favorite heroes shown in your screenshot</h3>
+      <table>
+        <thead><tr><th>Hero</th><th>Matches</th><th>Win rate</th></tr></thead>
+        <tbody>
+          <tr><td>Cecilion</td><td>313</td><td>61.7%</td></tr>
+          <tr><td>Fanny</td><td>278</td><td>41.7%</td></tr>
+          <tr><td>Miya</td><td>252</td><td>59.5%</td></tr>
+          <tr><td>Selena</td><td>250</td><td>60.4%</td></tr>
+          <tr><td>Hayabusa</td><td>238</td><td>50.4%</td></tr>
+          <tr><td>Karina</td><td>230</td><td>49.6%</td></tr>
+        </tbody>
+      </table>
+      <p class="small">These values are transcribed from the Favorite Heroes screenshot. They describe the visible hero records but do not explain every factor behind performance.</p>
+    </div>
+  </section>
+
+  <section id="concepts">
+    <div class="section-intro">
+      <div class="eyebrow">B · Application of Concepts</div>
+      <h2>Three mathematical topics</h2>
+      <p>Each topic has a definition, an example, a calculation or representation, and a direct connection to the chosen situation.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="tag">TOPIC 1</div>
+        <h3>Science of Statistics</h3>
+        <p>Statistics organizes and interprets data. Your all-seasons profile screenshot shows 8,553 matches, a 55.13% win rate, 1,141 MVPs, and a longest win streak of 28.</p>
+        <div class="formula">Win rate = (Wins ÷ Total matches) × 100</div>
+        <div class="formula"><div>Profile win rate = 55.13%</div><div class="big">8,553 total matches</div></div>
+        <p><strong>Application:</strong> These profile statistics summarize gaming record.</p>
+      </article>
+      <article class="card">
+        <div class="tag">TOPIC 2</div>
+        <h3>Mathematics as a Language</h3>
+        <p>Mathematics uses symbols, percentages, and formulas to communicate information clearly.</p>
+        <div class="formula">W = (V ÷ M) × 100</div>
+        <ul class="steps">
+          <li><strong>W</strong> = win rate, as a percentage</li>
+          <li><strong>V</strong> = number of victories</li>
+          <li><strong>M</strong> = total matches played</li>
+        </ul>
+        <p>The image expresses performance as a 55.13% win rate across 8,553 matches. This is more precise than saying only that you win “often.”</p>
+        <p><strong>Application:</strong> A formula makes the meaning of a statistic clear.</p>
+      </article>
+      <article class="card">
+        <div class="tag">TOPIC 3</div>
+        <h3>Math Problems and Problem Solving</h3>
+        <p>Algebra can estimate how many consecutive wins would raise the displayed win rate to a chosen target.</p>
+        <div class="formula">(0.5513 × 8,553 + x) ÷ (8,553 + x) = 0.60</div>
+        <p>Here, <strong>x</strong> is the number of additional wins, and the model assumes every new match is a win. Treating 55.13% as exact gives an estimate of about <strong>1,042 consecutive wins</strong> to reach 60%.</p>
+        <p><strong>Application:</strong> This is an estimate, not a prediction.</p>
+      </article>
+    </div>
+  </section>
+
+  <section id="analysis">
+    <div class="section-intro">
+      <div class="eyebrow">C · Analysis & Results</div>
+      <h2>What do  profile statistics show?</h2>
+      <p>The Image shows 8,553 all-seasons matches and a 55.13% win rate which is 5513 victorie/wins if we times it to 100 .
+         The 44.87% complement is calculated as 100% − 55.13%.</p>
+    </div>
+    
+    <div class="photo-section" style="margin-bottom:18px">
+      <img src="mlbb-match-history.jpg" alt="Mobile Legends match history screenshot showing ranked victories and a defeat" style="width:100%;height:100%;min-height:230px;max-height:320px;object-fit:cover;border-radius:14px;border:1px solid var(--line)">
+      <div>
+        <h3>Connect the data to the game</h3>
+        <p>This is actual match history photo and serves as visual evidence of ranked results. A screenshot is a small sample of visible matches, while the profile statistics summarize a much larger record. Keeping those sources separate helps avoid misleading conclusions.</p>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr 1fr">
+      <div class="card">
+        <h3>All-seasons profile statistics</h3>
+        <table>
+          <thead><tr><th>Statistic</th><th>Value shown</th></tr></thead>
+          <tbody><tr><td>Total matches</td><td>8,553</td></tr><tr><td>Win rate</td><td>55.13%</td></tr><tr><td>Complement of win rate</td><td>44.87%</td></tr><tr><td>MVP count</td><td>1,141</td></tr><tr><td>Longest win streak</td><td>28</td></tr></tbody>
+        </table>
+        <div class="callout">The photo displays the win rate. The percentage complement is not a confirmed loss count.</div>
+      </div>
+      <div class="chart-wrap">
+        <h3>Displayed win-rate split</h3>
+        <div class="bar-row"><span>Win rate</span><div class="bar"><div class="fill" style="width:55.13%"></div></div><strong>55.13%</strong></div>
+        <div class="bar-row"><span>Remainder</span><div class="bar"><div class="fill" style="width:44.87%;background:linear-gradient(90deg,#a78bfa,#f0abfc)"></div></div><strong>44.87%</strong></div>
+        <p class="small">The second bar is the mathematical complement of the displayed win rate.</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h3>Worked Problem: Reaching a 60% Win Rate</h3>
+<p>Current matches: 8,553. Current win rate: 55.13%. Target: 60%.</p>
+<p>Let <strong>x</strong> be the number of additional consecutive wins.</p>
+<p><strong>Equation:</strong> (0.5513 × 8,553 + x) ÷ (8,553 + x) = 0.60</p>
+<p><strong>Answer:</strong> x = 1,042 additional consecutive wins.</p>
+<p> It assumes every new match is a win.</p>
+
+<h3>Try the calculation yourself</h3>
+      <p>Use the win rate and match total from photo, then choose a target. This calculator estimates consecutive wins using the rounded displayed rate as its starting value.</p>
+      <div class="calculator">
+        <div>
+          <label for="rate">Current win rate (%)</label><input id="rate" type="number" min="0" max="100" step="0.01" value="55.13">
+          <label for="matches">Current total matches</label><input id="matches" type="number" min="1" step="1" value="8553">
+          <label for="target">Target win rate (%)</label><input id="target" type="number" min="0.01" max="100" step="0.1" value="65">
+          <button class="button" type="button" onclick="calculate()">Calculate additional wins</button>
+        </div>
+        <div id="calcResult" class="result" aria-live="polite">
+          <p>Estimated additional consecutive wins</p><strong>1,042</strong>
+          <p class="small">Estimate based on the displayed 55.13% win rate.</p>
+        </div>
+      </div>
+      <p class="small">The calculator treats the displayed rounded win rate as exact, so its output is an estimate rather than an exact game count. Use the website to try it to yourself</p>
+    </div>
+  </section>
+
+  <section id="modern-issue">
+    <div class="section-intro">
+      <div class="eyebrow">04 · Connection to a modern situation</div>
+      <h2>Digital rankings, data literacy, and responsible gaming</h2>
+      <p>Ranking systems are a modern example of how digital platforms use numbers to summarize performance. Understanding the mathematics behind them helps users interpret information rather than accepting a score without context.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <div class="tag">ISSUE 1 · DATA</div>
+        <h3>Numbers can influence decisions</h3>
+        <p>Players may use win rates and match totals to choose heroes or set goals. 
+          Statistics can support decisions, but one number should not be treated as the full story.</p>
+        <div class="formula">Good decision = data + context + judgment</div>
+      </article>
+      <article class="card">
+        <div class="tag">ISSUE 2 · FAIR INTERPRETATION</div>
+        <h3>A percentage needs context</h3>
+        <p>A hero with a high win rate may have fewer matches than another hero. 
+          Match count, role, team composition, and player experience can affect how the numbers should be interpreted.</p>
+        <div class="formula">Compare both: win rate and number of matches</div>
+      </article>
+      <article class="card">
+        <div class="tag">ISSUE 3 · WELL BEING</div>
+        <h3>Rank is not the whole measure of success</h3>
+        <p>Competitive rankings can motivate practice, but players should also 
+          value teamwork, learning, enjoyment, sleep, schoolwork, and breaks. 
+          A game statistic does not define a person’s worth.</p>
+        <div class="formula">Progress matters — balance matters too</div>
+      </article>
+    </div>
+    <div class="callout"><strong>Why this is a modern situation:</strong> Digital platforms
+       increasingly present users with scores, percentages, recommendations, and rankings. 
+       Being able to question what a number measures and what it leaves outis a useful skill beyond gaming, including in social media, sports, education, and online services.</div>
+    
+  </section>
+
+  <section id="reflection">
+    <div class="section-intro">
+      <div class="eyebrow">D · Reflection</div>
+      <h2>What does this teach us?</h2>
+    </div>
+    <div class="card reflection">
+      <p>Through this project,  I learned that mathematics can be applied to
+         online gaming and other digital experiences. Mathematics is everywhere. Statistics summarizes 
+         match outcomes, mathematical language communicates results clearly,
+          and algebra helps model possible goals. I also learned that a number
+           can be useful without telling the whole story, win rate does not measure 
+           every factor, such as teamwork, opponent strength, or the difficulty of a role.</p>
+      <p>This topic connects to a wider modern situation like digital systems present
+         rankings and statistics that can influence people’s choices. Mathematics
+          is not only about calculating a result; it is also about interpreting evidence 
+          and making thoughtful decisions.</p>
+    </div>
+  </section>
+
+  <section id="conclusion">
+    <div class="section-intro">
+      <div class="eyebrow">Conclusion</div>
+      <h2>Mathematics for Digital Competition and Responsible Gaming</h2>
+      <p>This portfolio applied three mathematical topics to a real Mobile Legends profile and connected them to digital data literacy and responsible gaming. Statistics summarized the displayed 8,553 matches, 55.13% win rate, 1,141 MVPs, and 28-match longest win streak; mathematical notation explained the win-rate formula; and algebra estimated the additional wins needed to reach a target. The estimate is approximate because the displayed win rate is rounded.</p>
+    </div>
+    <button class="button" onclick="window.print()">Print / Save as PDF</button>
+  </section>
+</main>
+
+
+<footer>MathGAMIMG By Kirt Ruales · Mathematics in Real Life · Mathematics of Online Gaming</footer>
+<script>
+function calculate(){
+  const rate=Number(document.getElementById('rate').value);
+  const matches=Number(document.getElementById('matches').value);
+  const target=Number(document.getElementById('target').value);
+  const out=document.getElementById('calcResult');
+  if(!Number.isFinite(rate)||rate<0||rate>100||!Number.isInteger(matches)||matches<1||!Number.isFinite(target)||target<=0||target>100){
+    out.innerHTML='<p>Enter a win rate from 0 to 100, a positive whole-number match total, and a target above 0% up to 100%.</p>';
+    return;
+  }
+  if(rate>=target){
+    out.innerHTML='<p>Estimated additional consecutive wins required</p><strong>0</strong><p>Current displayed win rate: '+rate.toFixed(2)+'%</p><p class="small">The current displayed rate already meets the target.</p>';
+    return;
+  }
+  if(target===100){
+    out.innerHTML='<p>A 100% rate cannot be reached by adding wins if the current rate is below 100% and past losses remain in the total.</p>';
+    return;
+  }
+  const fraction=rate/100, goal=target/100;
+  const x=Math.max(0,Math.ceil((goal-fraction)*matches/(1-goal)-1e-10));
+  const resulting=(fraction*matches+x)/(matches+x)*100;
+  out.innerHTML='<p>Estimated additional consecutive wins required</p><strong>'+x.toLocaleString()+'</strong><p>Starting displayed win rate: '+rate.toFixed(2)+'%</p><p>Estimated resulting win rate: '+resulting.toFixed(2)+'%</p><p class="small">This estimate treats the displayed rounded percentage as exact and assumes every added match is a win.</p>';
+}
+</script>
+</body>
+</html>
